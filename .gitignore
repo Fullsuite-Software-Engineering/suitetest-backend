@@ -1,3 +1,68 @@
-node_modules
+# ======================================
+# 📦 Node.js / Express Backend .gitignore
+# ======================================
+
+# --- Dependencies ---
+node_modules/
+
+# --- Environment Variables ---
 .env
-dist
+.env.local
+.env.*.local
+
+# --- Build Outputs ---
+dist/
+build/
+coverage/
+
+# --- Logs ---
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# --- Cache & Temporary Files ---
+.tmp/
+.temp/
+.cache/
+.nyc_output/
+.DS_Store
+*.swp
+
+# --- Sequelize / Database ---
+*.sqlite
+*.sqlite3
+*.db
+dump.sql
+
+# --- Test Files ---
+/coverage
+/jest-cache
+/jest-report
+/test-results
+*.test.js
+*.spec.js
+
+# --- IDE / Editor Settings ---
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# --- System Files ---
+Thumbs.db
+Desktop.ini
+
+# --- Optional OS-specific ignores ---
+# macOS
+.AppleDouble
+.LSOverride
+
+# Linux
+*~
+
+# Windows
+ehthumbs.db

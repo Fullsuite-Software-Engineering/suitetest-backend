@@ -10,6 +10,9 @@ const envSchema = z.object({
   DB_PASS: z.string(),
   DB_HOST: z.string(),
   DB_PORT: z.string().default("3306"),
+
+  //JWT TOKEN
+  JWT_TOKEN: z.string(),
 });
 
 const env = envSchema.parse(process.env);
