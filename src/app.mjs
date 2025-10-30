@@ -28,8 +28,6 @@ app.use(express.json());
     // console.log("All models synced");
   } catch (error) {
     console.error("Unable to connect to the database: ", error);
-  } finally {
-    console.log("Database Sync Successfully");
   }
 })();
 
