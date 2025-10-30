@@ -80,48 +80,6 @@ DB_PORT=3306
 JWT_TOKEN=your_jwt_secret
 ```
 
-📂 Folder Structure
-suit-test-backend/
-│
-├── config/
-│   └── db.mjs                     # Sequelize database configuration
-│
-├── models/
-│   ├── applicant.model.mjs
-│   ├── department.model.mjs
-│   ├── quiz.model.mjs
-│   ├── questionBank.model.mjs
-│   ├── answerOption.model.mjs
-│   ├── result.model.mjs
-│   ├── bridge.model.mjs
-│   ├── testLink.model.mjs
-│   └── index.model.mjs            # Associations and model initialization
-│
-├── controllers/
-│   ├── applicant.controller.mjs
-│   ├── quiz.controller.mjs
-│   ├── result.controller.mjs
-│   ├── department.controller.mjs
-│   └── ...
-│
-├── routes/
-│   ├── applicant.routes.mjs
-│   ├── quiz.routes.mjs
-│   ├── result.routes.mjs
-│   └── ...
-│
-├── middleware/
-│   └── auth.middleware.mjs        # JWT token verification
-│
-├── utils/
-│   ├── jwt.js
-│   ├── zodValidation.js
-│   └── responseHandler.js
-│
-├── .env
-├── package.json
-└── server.mjs
-
 👨‍💻 Developer
 
 | Name                    | Email                                                         |
