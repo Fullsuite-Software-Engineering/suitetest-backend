@@ -40,17 +40,6 @@ Validation using Zod
 Secure route protection via JWT Middleware
 
 ---
-👨‍💻 Developer
-
-Mark Joseph Abano 📧 markabanomain@gmail.com
-Francis Alex Darang 📧 francisddarang@gmail.com
-Neil Aron Pascual 📧 neilaronpascual@gmail.com
-Jerome Millares 📧 jmillares0945@gmail.com
-Rav Guzman 📧 ravalbert17@gmail.com
-
-💼 Project: Suit Test App — Backend
-
----
 
 ## 🧩 Tech Stack
 
@@ -72,13 +61,16 @@ Rav Guzman 📧 ravalbert17@gmail.com
 ```bash
 git clone https://github.com/yourusername/suit-test-backend.git
 cd suit-test-backend
+```
 
-    2️⃣ Install Dependencies
+### 2️⃣ Install Dependencies
+```bash
 npm install
+```
 
-    3️⃣ Configure Environment Variables
+### 3️⃣ Configure Environment Variables
 Create a .env file in the root directory:
-
+```bash
 DB_NAME=suit_test_db
 DB_HOST=localhost
 DB_USERNAME=root
@@ -86,6 +78,7 @@ DB_PASSWORD=yourpassword
 DB_PORT=3306
 
 JWT_TOKEN=your_jwt_secret
+```
 
 📂 Folder Structure
 suit-test-backend/
@@ -128,3 +121,18 @@ suit-test-backend/
 ├── .env
 ├── package.json
 └── server.mjs
+
+👨‍💻 Developer
+
+Mark Joseph Abano 
+📧 markabanomain@gmail.com
+Francis Alex Darang 
+📧 francisddarang@gmail.com
+Neil Aron Pascual 
+📧 neilaronpascual@gmail.com
+Jerome Millares 
+📧 jmillares0945@gmail.com
+Rav Guzman 
+📧 ravalbert17@gmail.com
+
+💼 Project: Suit Test App — Backend
