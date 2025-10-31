@@ -17,6 +17,10 @@ dotenv.config();
 
 app.use(express.json());
 
+app.use(express.urlencoded({ extended: true }));
+
+app.use("/api", routes);
+
 (async () => {
   try {
     await sequelize.authenticate();

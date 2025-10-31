@@ -13,6 +13,9 @@ const envSchema = z.object({
 
   //JWT TOKEN
   JWT_TOKEN: z.string(),
+
+  // HRIS API
+  HRIS_API_URL: z.string(),
 });
 
 const env = envSchema.parse(process.env);

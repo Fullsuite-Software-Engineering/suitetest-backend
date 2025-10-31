@@ -87,12 +87,12 @@ JWT_TOKEN=your_jwt_secret
 
 👨‍💻 Developer
 
-| Name                    | Email                                                         |
-| ----------------------- | ------------------------------------------------------------- |
-| **Mark Joseph Abano**   | [markabanomain@gmail.com](mailto:markabanomain@gmail.com)     |
-| **Francis Alex Darang** | [francisddarang@gmail.com](mailto:francisddarang@gmail.com)   |
-| **Neil Aron Pascual**   | [neilaronpascual@gmail.com](mailto:neilaronpascual@gmail.com) |
-| **Jerome Millares**     | [jmillares0945@gmail.com](mailto:jmillares0945@gmail.com)     |
-| **Rav Guzman**          | [ravalbert17@gmail.com](mailto:ravalbert17@gmail.com)         |
+| Name                    | Email                                                                 |
+| ----------------------- | --------------------------------------------------------------------- |
+| **Mark Joseph Abano**   | [markabanomain@gmail.com](mailto:markabanomain@gmail.com)             |
+| **Francis Alex Darang** | [francisddarang@gmail.com](mailto:francisddarang@gmail.com)           |
+| **Neil Aron Pascual**   | [neilaronpascual.dev@gmail.com](mailto:neilaronpascual.dev@gmail.com) |
+| **Jerome Millares**     | [jmillares0945@gmail.com](mailto:jmillares0945@gmail.com)             |
+| **Rav Guzman**          | [ravalbert17@gmail.com](mailto:ravalbert17@gmail.com)                 |
 
 💼 Project: Suit Test App — Backend
