@@ -1,16 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
 import sequelize from "./configs/db.mjs";
-import {
-  Applicant,
-  Department,
-  Quiz,
-  QuestionBank,
-  AnswerOption,
-  Result,
-  Bridge,
-  TestLink,
-} from "./models/index.model.mjs";
 
 const app = express();
 dotenv.config();

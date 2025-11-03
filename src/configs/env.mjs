@@ -12,10 +12,10 @@ const envSchema = z.object({
   DB_PORT: z.string().default("3306"),
 
   //JWT TOKEN
-  JWT_TOKEN: z.string(),
+  JWT_SECRET: z.string(),
 
   // HRIS API
-  HRIS_API_URL: z.string(),
+  HRIS_BACKEND_URL: z.string(),
 });
 
 const env = envSchema.parse(process.env);
