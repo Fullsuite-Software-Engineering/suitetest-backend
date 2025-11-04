@@ -1,6 +1,15 @@
 import express from "express";
 import dotenv from "dotenv";
 import sequelize from "./configs/db.mjs";
+import {
+  AnswerOption,
+  Bridge,
+  Department,
+  Examiner,
+  QuestionBank,
+  Quiz,
+  Result,
+} from "./models/index.model.mjs";
 
 const app = express();
 dotenv.config();
@@ -8,8 +17,6 @@ dotenv.config();
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
-
-app.use("/api", routes);
 
 (async () => {
   try {

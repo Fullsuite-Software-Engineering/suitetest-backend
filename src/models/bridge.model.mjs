@@ -1,15 +1,15 @@
 import { DataTypes } from "sequelize";
 
-export default (sequelize) => {
-  const Bridge = sequelize.define(
+export default (sequelize) =>
+  sequelize.define(
     "Bridge",
     {
       bridge_id: {
         type: DataTypes.INTEGER,
-        autoIncrement: true,
         primaryKey: true,
+        autoIncrement: true,
       },
-      applicant_id: { type: DataTypes.INTEGER },
+      examiner_id: { type: DataTypes.INTEGER },
       quiz_id: { type: DataTypes.INTEGER },
       result_id: { type: DataTypes.INTEGER },
     },
@@ -18,5 +18,3 @@ export default (sequelize) => {
       timestamps: false,
     }
   );
-  return Bridge;
-};

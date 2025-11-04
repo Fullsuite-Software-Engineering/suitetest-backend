@@ -1,22 +1,21 @@
 import { DataTypes } from "sequelize";
 
-export default (sequelize) => {
-  const Applicant = sequelize.define(
-    "Applicant",
+export default (sequelize) =>
+  sequelize.define(
+    "Examiner",
     {
-      applicant_id: {
+      examiner_id: {
         type: DataTypes.INTEGER,
-        autoIncrement: true,
         primaryKey: true,
+        autoIncrement: true,
       },
       first_name: { type: DataTypes.STRING(255), allowNull: false },
       last_name: { type: DataTypes.STRING(255), allowNull: false },
       email: { type: DataTypes.STRING(255), allowNull: false, unique: true },
+      created_at: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
     },
     {
-      tableName: "applicants",
+      tableName: "examiners",
       timestamps: false,
     }
   );
-  return Applicant;
-};
