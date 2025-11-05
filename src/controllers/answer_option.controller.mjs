@@ -2,7 +2,7 @@ import { AnswerOption } from "../models/index.model.mjs";
 
 export const getAllAnswer = async (req, res) => {
   try {
-    const { question_id } = req.body;
+    const { question_id } = req.params;
 
     const answers = await AnswerOption.findAll({
       where: { question_id },
@@ -39,7 +39,8 @@ export const createAnswer = async (req, res) => {
 
 export const updateAnswer = async (req, res) => {
   try {
-    const { answer_id, option_text, is_correct } = req.body;
+    const { answer_id } = req.params;
+    const { option_text, is_correct } = req.body;
 
     const updatedAnswers = await AnswerOption.findByPk(answer_id);
 

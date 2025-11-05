@@ -18,7 +18,7 @@ router.post(
 );
 router.delete("/:question_id/delete", deleteAnswer);
 router.put(
-  "/:question_id/update",
+  "/:question_id/update/:answer_id",
   validateSchema(answerOptionSchema),
   updateAnswer
 );
