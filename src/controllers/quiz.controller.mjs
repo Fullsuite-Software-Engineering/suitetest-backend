@@ -63,7 +63,7 @@ export const updateQuiz = async (req, res) => {
 
     quiz.quiz_name = quiz_name;
     quiz.time_limit = time_limit;
-    quiz.save();
+    await quiz.save();
 
     res.status(201).json({ message: "Quiz updated successfully", data: quiz });
   } catch (error) {

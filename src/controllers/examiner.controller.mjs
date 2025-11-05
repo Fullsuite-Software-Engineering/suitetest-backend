@@ -66,7 +66,7 @@ export const udpateExaminer = async (req, res) => {
     examiner.first_name = first_name;
     examiner.last_name = last_name;
     examiner.email = email;
-    examiner.save();
+    await examiner.save();
 
     res.status(201).json({
       message: "Examiner updated successfully",

@@ -44,13 +44,13 @@ export const updateQuestion = async (req, res) => {
     const { question_id } = req.params;
     const { question_text, question_type, points, explanation } = req.body;
 
-    const question = await QuestionBank.finByPK(question_id);
+    const question = await QuestionBank.findByPk(question_id);
 
     question.question_text = question_text;
     question.question_type = question_type;
     question.points = points;
     question.explanation = explanation;
-    question.save();
+    await question.save();
 
     res
       .status(201)
