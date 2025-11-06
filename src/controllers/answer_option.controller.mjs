@@ -8,9 +8,10 @@ export const getAllAnswer = async (req, res) => {
       where: { question_id },
     });
 
-    res
-      .status(200)
-      .json({ message: "Answers Fetched Successfully", data: answers });
+    res.status(200).json({
+      message: "Answers Fetched Successfully",
+      data: answers,
+    });
   } catch (error) {
     console.error("Error retrieving answers:", error);
     res.status(500).json({ message: "Internal server error" });
@@ -19,17 +20,18 @@ export const getAllAnswer = async (req, res) => {
 
 export const createAnswer = async (req, res) => {
   try {
-    const { question_id, option_text, is_correct } = req.body;
+    const { question_id } = req.params;
+    const { option_text, is_correct } = req.body;
 
-    const answers = await AnswerOption.create({
+    const answer = await AnswerOption.create({
       question_id,
       option_text,
       is_correct,
     });
 
     res.status(201).json({
-      message: "Answers created successfully",
-      data: answers,
+      message: "Answer created successfully",
+      data: answer,
     });
   } catch (error) {
     console.error("Error Creating Answer:", error);
@@ -40,46 +42,42 @@ export const createAnswer = async (req, res) => {
 export const updateAnswer = async (req, res) => {
   try {
     const { answer_id } = req.params;
-    const { answers } = req.body;
-    // Expecting something like:
-    // answers = [
-    //   { answer_id: 1, option_text: "Option 1", is_correct: true },
-    //   { answer_id: 2, option_text: "Option 2", is_correct: false },
-    // ];
+    const { option_text, is_correct } = req.body;
 
-    const updatedAnswers = [];
-
-    for (const answer of answers) {
-      const existingAnswer = await AnswerOption.findByPk(answer.answer_id);
-      if (existingAnswer) {
-        existingAnswer.option_text = answer.option_text;
-        existingAnswer.is_correct = answer.is_correct;
-        await existingAnswer.save();
-        updatedAnswers.push(existingAnswer);
-      }
+    const answer = await AnswerOption.findByPk(answer_id);
+    if (!answer) {
+      return res.status(404).json({ message: "Answer not found" });
     }
 
+    answer.option_text = option_text;
+    answer.is_correct = is_correct;
+    await answer.save();
+
     res.status(200).json({
-      message: "Answers updated successfully",
-      data: updatedAnswers,
+      message: "Answer updated successfully",
+      data: answer,
     });
   } catch (error) {
-    console.error("Error updating answers:", error);
+    console.error("Error updating answer:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
 
 export const deleteAnswer = async (req, res) => {
   try {
-    const { answer_id } = req.body;
+    const { answer_id } = req.params;
 
-    const deletedAnswers = await AnswerOption.destroy({
+    const deletedAnswer = await AnswerOption.destroy({
       where: { answer_id },
     });
 
-    res.status(201).json({
-      message: "Answers deleted successfully",
-      data: deletedAnswers,
+    if (!deletedAnswer) {
+      return res.status(404).json({ message: "Answer not found" });
+    }
+
+    res.status(200).json({
+      message: "Answer deleted successfully",
+      data: deletedAnswer,
     });
   } catch (error) {
     console.error("Error Deleting Answer:", error);
