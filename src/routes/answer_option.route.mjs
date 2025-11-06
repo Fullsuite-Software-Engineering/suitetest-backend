@@ -10,17 +10,24 @@ import { answerOptionSchema } from "../schemas/answer_option.schema.mjs";
 
 const router = express.Router();
 
+router.get("/get/:question_id", getAllAnswer);
+
 router.get("/:question_id/get", getAllAnswer);
+
 router.post(
   "/:question_id/create",
   validateSchema(answerOptionSchema),
   createAnswer
 );
-router.delete("/:question_id/delete", deleteAnswer);
+
+// Update a specific answer
 router.put(
-  "/:question_id/update/:answer_id",
+  "/:answer_id/update",
   validateSchema(answerOptionSchema),
   updateAnswer
 );
+
+// Delete a specific answer
+router.delete("/:answer_id/delete", deleteAnswer);
 
 export default router;

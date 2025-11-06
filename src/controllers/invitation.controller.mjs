@@ -53,9 +53,9 @@ export const validateLinkInvitation = async (req, res) => {
 
     const invitation = await Invitation.findOne({
       where: { token },
-      includes: [
-        { model: Quiz, attributes: "quiz_name" },
-        { model: Department, attributes: "dept_name" },
+      include: [ // FIXED: was "includes" (typo)
+        { model: Quiz, attributes: ["quiz_id", "quiz_name"] }, // FIXED: was "quiz_name" only
+        { model: Department, attributes: ["dept_id", "dept_name"] }, // FIXED: was "dept_name" only
       ],
     });
 
@@ -76,8 +76,10 @@ export const validateLinkInvitation = async (req, res) => {
       message: "Invitation valid.",
       data: {
         email: invitation.email,
-        quiz: invitation.Quiz,
-        department: invitation.Department,
+        dept_id: invitation.dept_id,        // ← ADD THIS
+        quiz_id: invitation.quiz_id,        // ← ADD THIS
+        quiz_name: invitation.Quiz?.quiz_name,      // ← OPTIONAL: for display
+        dept_name: invitation.Department?.dept_name, // ← OPTIONAL: for display
       },
     });
   } catch (error) {
