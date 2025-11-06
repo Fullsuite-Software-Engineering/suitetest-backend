@@ -25,30 +25,30 @@ export const getAllExaminer = async (req, res) => {
   }
 };
 
-export const createExaminer = async (req, res) => {
-  try {
-    const { first_name, last_name, email, dept_id } = req.body;
+// export const createExaminer = async (req, res) => {
+//   try {
+//     const { first_name, last_name, email, dept_id } = req.body;
 
-    if (!first_name || !last_name || !email) {
-      return res.status(400).json({ message: "Missing required fields" });
-    }
+//     if (!first_name || !last_name || !email) {
+//       return res.status(400).json({ message: "Missing required fields" });
+//     }
 
-    const examiner = await Examiner.create({
-      first_name,
-      last_name,
-      email,
-      dept_id,
-    });
+//     const examiner = await Examiner.create({
+//       first_name,
+//       last_name,
+//       email,
+//       dept_id,
+//     });
 
-    res.status(201).json({
-      message: "Examiner created successfully",
-      data: examiner,
-    });
-  } catch (error) {
-    console.error("Error creating examiner:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-};
+//     res.status(201).json({
+//       message: "Examiner created successfully",
+//       data: examiner,
+//     });
+//   } catch (error) {
+//     console.error("Error creating examiner:", error);
+//     res.status(500).json({ message: "Internal server error" });
+//   }
+// };
 
 export const udpateExaminer = async (req, res) => {
   try {

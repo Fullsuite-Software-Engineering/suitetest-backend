@@ -6,6 +6,7 @@ import QuestionBankModel from "./question_bank.model.mjs";
 import AnswerOptionModel from "./answer_option.model.mjs";
 import ResultModel from "./result.model.mjs";
 import BridgeModel from "./bridge.model.mjs";
+import InvitationModel from "./invitation.model.mjs";
 
 // Initialize models
 const Examiner = ExaminerModel(sequelize);
@@ -15,6 +16,7 @@ const QuestionBank = QuestionBankModel(sequelize);
 const AnswerOption = AnswerOptionModel(sequelize);
 const Result = ResultModel(sequelize);
 const Bridge = BridgeModel(sequelize);
+const Invitation = InvitationModel(sequelize);
 
 // Relationships
 
@@ -51,6 +53,25 @@ Bridge.belongsTo(Examiner, { foreignKey: "examiner_id" });
 Bridge.belongsTo(Quiz, { foreignKey: "quiz_id" });
 Bridge.belongsTo(Result, { foreignKey: "result_id" });
 
+// Invitation relationships
+Invitation.belongsTo(Quiz, {
+  foreignKey: "quiz_id",
+  onDelete: "CASCADE",
+});
+Invitation.belongsTo(Department, {
+  foreignKey: "dept_id",
+  onDelete: "CASCADE",
+});
+Invitation.belongsTo(Examiner, {
+  foreignKey: "examiner_id",
+  onDelete: "SET NULL",
+});
+
+// Reverse relationships (optional but helpful for eager loading)
+Quiz.hasMany(Invitation, { foreignKey: "quiz_id" });
+Department.hasMany(Invitation, { foreignKey: "dept_id" });
+Examiner.hasMany(Invitation, { foreignKey: "examiner_id" });
+
 export {
   sequelize,
   Examiner,
@@ -60,4 +81,5 @@ export {
   AnswerOption,
   Result,
   Bridge,
+  Invitation,
 };

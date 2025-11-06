@@ -6,6 +6,7 @@ import questionRoutes from "../routes/question_bank.route.mjs";
 import answerRoutes from "../routes/answer_option.route.mjs";
 import resultRoutes from "../routes/result.route.mjs";
 import bridgeRoutes from "../routes/bridge.route.mjs";
+import invitationRoutes from "../routes/invitation.route.mjs";
 
 const router = express.Router();
 
@@ -16,5 +17,6 @@ router.use("/question", questionRoutes);
 router.use("/answer", answerRoutes);
 router.use("/result", resultRoutes);
 router.use("/bridge", bridgeRoutes);
+router.use("/invitation", invitationRoutes);
 
 export default router;

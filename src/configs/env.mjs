@@ -16,6 +16,9 @@ const envSchema = z.object({
 
   // HRIS API
   HRIS_BACKEND_URL: z.string(),
+
+  //FRONT END URL
+  FRONT_END_BASE_URL: z.string(),
 });
 
 const env = envSchema.parse(process.env);
