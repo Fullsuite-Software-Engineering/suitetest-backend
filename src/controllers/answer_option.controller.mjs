@@ -40,20 +40,31 @@ export const createAnswer = async (req, res) => {
 export const updateAnswer = async (req, res) => {
   try {
     const { answer_id } = req.params;
-    const { option_text, is_correct } = req.body;
+    const { answers } = req.body;
+    // Expecting something like:
+    // answers = [
+    //   { answer_id: 1, option_text: "Option 1", is_correct: true },
+    //   { answer_id: 2, option_text: "Option 2", is_correct: false },
+    // ];
 
-    const updatedAnswers = await AnswerOption.findByPk(answer_id);
+    const updatedAnswers = [];
 
-    updatedAnswers.option_text = option_text;
-    updatedAnswers.is_correct = is_correct;
-    await updatedAnswers.save();
+    for (const answer of answers) {
+      const existingAnswer = await AnswerOption.findByPk(answer.answer_id);
+      if (existingAnswer) {
+        existingAnswer.option_text = answer.option_text;
+        existingAnswer.is_correct = answer.is_correct;
+        await existingAnswer.save();
+        updatedAnswers.push(existingAnswer);
+      }
+    }
 
-    res.status(201).json({
+    res.status(200).json({
       message: "Answers updated successfully",
       data: updatedAnswers,
     });
   } catch (error) {
-    console.error("Error Updating Answer:", error);
+    console.error("Error updating answers:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
