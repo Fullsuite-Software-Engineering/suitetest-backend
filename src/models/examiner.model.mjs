@@ -2,28 +2,30 @@ import { DataTypes } from "sequelize";
 
 export default (sequelize) =>
   sequelize.define(
-    "Quiz",
+    "Examiner",
     {
-      quiz_id: {
+      examiner_id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
       },
       dept_id: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: "departments",
           key: "dept_id",
         },
         onUpdate: "CASCADE",
-        onDelete: "CASCADE",
+        onDelete: "SET NULL",
       },
-      quiz_name: { type: DataTypes.STRING(255), allowNull: false },
-      time_limit: { type: DataTypes.INTEGER },
+      first_name: { type: DataTypes.STRING(255), allowNull: false },
+      last_name: { type: DataTypes.STRING(255), allowNull: false },
+      email: { type: DataTypes.STRING(255), allowNull: false, unique: true },
+      created_at: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
     },
     {
-      tableName: "quizzes",
+      tableName: "examiners",
       timestamps: false,
     }
   );

@@ -2,28 +2,28 @@ import { DataTypes } from "sequelize";
 
 export default (sequelize) =>
   sequelize.define(
-    "Quiz",
+    "AnswerOption",
     {
-      quiz_id: {
+      answer_id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
       },
-      dept_id: {
+      question_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-          model: "departments",
-          key: "dept_id",
+          model: "question_bank",
+          key: "question_id",
         },
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
-      quiz_name: { type: DataTypes.STRING(255), allowNull: false },
-      time_limit: { type: DataTypes.INTEGER },
+      option_text: { type: DataTypes.TEXT, allowNull: false },
+      is_correct: { type: DataTypes.BOOLEAN, defaultValue: false },
     },
     {
-      tableName: "quizzes",
+      tableName: "answer_options",
       timestamps: false,
     }
   );

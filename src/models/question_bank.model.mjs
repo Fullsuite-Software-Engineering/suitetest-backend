@@ -2,22 +2,12 @@ import { DataTypes } from "sequelize";
 
 export default (sequelize) =>
   sequelize.define(
-    "Bridge",
+    "QuestionBank",
     {
-      bridge_id: {
+      question_id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
-      },
-      examiner_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-          model: "examiners",
-          key: "examiner_id",
-        },
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
       },
       quiz_id: {
         type: DataTypes.INTEGER,
@@ -29,19 +19,16 @@ export default (sequelize) =>
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
-      result_id: {
-        type: DataTypes.INTEGER,
+      question_text: { type: DataTypes.TEXT, allowNull: false },
+      question_type: {
+        type: DataTypes.ENUM("MC", "CB", "TF", "DESC"),
         allowNull: false,
-        references: {
-          model: "results",
-          key: "result_id",
-        },
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
       },
+      points: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 1 },
+      explanation: { type: DataTypes.TEXT },
     },
     {
-      tableName: "bridges",
+      tableName: "question_bank",
       timestamps: false,
     }
   );
