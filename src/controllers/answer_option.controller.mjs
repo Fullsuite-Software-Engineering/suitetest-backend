@@ -1,15 +1,38 @@
 import { AnswerOption } from "../models/index.model.mjs";
 
+// FOR TAKING TESTS - WITHOUT CORRECT ANSWERS (SECURE)
+export const getAnswersForTest = async (req, res) => {
+  try {
+    const { question_id } = req.params;
+
+    const answers = await AnswerOption.findAll({
+      where: { question_id },
+      attributes: ['answer_id', 'option_text'], // EXCLUDE is_correct for security
+      order: [['answer_id', 'ASC']],
+    });
+
+    res.status(200).json({
+      message: "Answer options fetched successfully",
+      data: answers,
+    });
+  } catch (error) {
+    console.error("Error retrieving answers for test:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// FOR ADMIN OR RESULTS - WITH CORRECT ANSWERS
 export const getAllAnswer = async (req, res) => {
   try {
     const { question_id } = req.params;
 
     const answers = await AnswerOption.findAll({
       where: { question_id },
+      order: [['answer_id', 'ASC']],
     });
 
     res.status(200).json({
-      message: "Answers Fetched Successfully",
+      message: "Answers fetched successfully",
       data: answers,
     });
   } catch (error) {
