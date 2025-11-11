@@ -50,39 +50,39 @@ export const getAllExaminer = async (req, res) => {
 //   }
 // };
 
-export const udpateExaminer = async (req, res) => {
-  try {
-    const { examiner_id } = req.params;
-    const { first_name, last_name, email } = req.body;
+// export const udpateExaminer = async (req, res) => {
+//   try {
+//     const { examiner_id } = req.params;
+//     const { first_name, last_name, email } = req.body;
 
-    if (!examiner_id) {
-      return res.status(400).json({ message: "Examiner Id is required" });
-    }
+//     if (!examiner_id) {
+//       return res.status(400).json({ message: "Examiner Id is required" });
+//     }
 
-    if (!first_name || !last_name || !email) {
-      return res.status(400).json({ message: "Fields are required" });
-    }
+//     if (!first_name || !last_name || !email) {
+//       return res.status(400).json({ message: "Fields are required" });
+//     }
 
-    const examiner = await Examiner.findByPk(examiner_id);
+//     const examiner = await Examiner.findByPk(examiner_id);
 
-    if (!examiner) {
-      return res.status(404).json({ message: "Department not found" });
-    }
+//     if (!examiner) {
+//       return res.status(404).json({ message: "Department not found" });
+//     }
 
-    examiner.first_name = first_name;
-    examiner.last_name = last_name;
-    examiner.email = email;
-    await examiner.save();
+//     examiner.first_name = first_name;
+//     examiner.last_name = last_name;
+//     examiner.email = email;
+//     await examiner.save();
 
-    res.status(201).json({
-      message: "Examiner updated successfully",
-      data: examiner,
-    });
-  } catch (error) {
-    console.error("Error updating examiner:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-};
+//     res.status(201).json({
+//       message: "Examiner updated successfully",
+//       data: examiner,
+//     });
+//   } catch (error) {
+//     console.error("Error updating examiner:", error);
+//     res.status(500).json({ message: "Internal server error" });
+//   }
+// };
 
 export const deleteExaminer = async (req, res) => {
   try {

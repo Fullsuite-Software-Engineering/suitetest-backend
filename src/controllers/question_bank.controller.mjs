@@ -1,4 +1,5 @@
 import { QuestionBank } from "../models/index.model.mjs";
+import { questionBankSchema } from "../schemas/question_bank.schema.mjs";
 
 export const getAllQuestion = async (req, res) => {
   try {
@@ -6,6 +7,9 @@ export const getAllQuestion = async (req, res) => {
 
     const questions = await QuestionBank.findAll({
       where: { quiz_id },
+      attributes: {
+        exclude: ["explanation"],
+      },
     });
 
     res
@@ -19,8 +23,25 @@ export const getAllQuestion = async (req, res) => {
 
 export const createQuestion = async (req, res) => {
   try {
-    const { quiz_id, question_text, question_type, points, explanation } =
-      req.body;
+    const { quiz_id } = req.body;
+
+    const result = questionBankSchema.safeParse(req.body);
+
+    if (!result.success) {
+      const formatted = result.error.issues.map((err) => ({
+        path: err.path.join("."),
+        message: err.message,
+        expected: err.expected,
+        received: err.received,
+      }));
+
+      return res.status(400).json({
+        message: "Zod Validation failed",
+        errors: formatted,
+      });
+    }
+
+    const { question_text, question_type, points, explanation } = result.data;
 
     const question = await QuestionBank.create({
       quiz_id,
@@ -42,9 +63,29 @@ export const createQuestion = async (req, res) => {
 export const updateQuestion = async (req, res) => {
   try {
     const { question_id } = req.params;
-    const { question_text, question_type, points, explanation } = req.body;
+
+    const result = questionBankSchema.safeParse(req.body);
+
+    if (!result.success) {
+      const formatted = result.error.issues.map((err) => ({
+        path: err.path.join("."),
+        message: err.message,
+        expected: err.expected,
+        received: err.received,
+      }));
+
+      return res.status(400).json({
+        message: "Zod Validation failed",
+        errors: formatted,
+      });
+    }
+    const { question_text, question_type, points, explanation } = result.data;
 
     const question = await QuestionBank.findByPk(question_id);
+
+    if (!question) {
+      res.status(400).json({ message: "Question not found" });
+    }
 
     question.question_text = question_text;
     question.question_type = question_type;

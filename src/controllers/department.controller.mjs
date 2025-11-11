@@ -1,5 +1,6 @@
 import { where } from "sequelize";
 import { Department } from "../models/index.model.mjs";
+import { departmentSchema } from "../schemas/department.schema.mjs";
 
 export const getAllDepartments = async (req, res) => {
   try {
@@ -23,15 +24,26 @@ export const getAllDepartments = async (req, res) => {
 
 export const createDepartment = async (req, res) => {
   try {
-    const { dept_name, is_active } = req.body;
+    const result = departmentSchema.safeParse(req.body);
 
-    if (!dept_name) {
-      return res.status(400).json({ message: "Department name is required" });
+    if (!result.success) {
+      const formatted = result.error.issues.map((err) => ({
+        path: err.path.join("."),
+        message: err.message,
+        expected: err.expected,
+        received: err.received,
+      }));
+
+      return res.status(400).json({
+        message: "Zod Validation failed",
+        errors: formatted,
+      });
     }
+
+    const { dept_name } = result.data;
 
     const department = await Department.create({
       dept_name,
-      is_active: is_active !== undefined ? is_active : true,
     });
 
     res.status(201).json({
@@ -47,15 +59,24 @@ export const createDepartment = async (req, res) => {
 export const updateDepartment = async (req, res) => {
   try {
     const { dept_id } = req.params;
-    const { dept_name } = req.body;
 
-    if (!dept_id) {
-      return res.status(400).json({ message: "Department ID is required" });
+    const result = departmentSchema.safeParse(req.body);
+
+    if (!result.success) {
+      const formatted = result.error.issues.map((err) => ({
+        path: err.path.join("."),
+        message: err.message,
+        expected: err.expected,
+        received: err.received,
+      }));
+
+      return res.status(400).json({
+        message: "Zod Validation failed",
+        errors: formatted,
+      });
     }
 
-    if (!dept_name) {
-      return res.status(400).json({ message: "Department name is required" });
-    }
+    const { dept_name } = result.data;
 
     const department = await Department.findByPk(dept_id);
 
