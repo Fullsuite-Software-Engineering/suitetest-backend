@@ -56,25 +56,23 @@ export const createResult = async (req, res) => {
       include: [
         {
           model: AnswerOption,
-          where: { is_correct: true },
-          attributes: ["option_text"],
+          attributes: ["option_text", "is_correct"],
         },
       ],
     });
 
     let score = 0;
+    let totalScoredQuestions = 0;
 
     for (const answer of answers) {
       const question = questions.find(
-        (ques) => ques.question_id === answer.question_id
+        (q) => q.question_id === answer.question_id
       );
       if (!question) continue;
 
       const type = question.question_type;
 
-      if (type === "descriptive") {
-        continue;
-      }
+      if (type === "descriptive") continue;
 
       const correctAnswers = question.AnswerOptions.filter(
         (opt) => opt.is_correct
@@ -91,7 +89,7 @@ export const createResult = async (req, res) => {
 
         if (isEqual) score++;
       } else {
-        if (userAnswers[0] === correctAnswers[0]) score++;
+        if (correctAnswers.includes(userAnswers[0])) score++;
       }
 
       totalScoredQuestions++;

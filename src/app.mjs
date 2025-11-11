@@ -25,7 +25,7 @@ app.use("/api", routes);
     console.log("Connection has been established successfully.");
 
     // await sequelize.sync({
-    //   alter: true,
+    //   force: true,
     // });
     // console.log("All models synced");
   } catch (error) {
