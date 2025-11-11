@@ -1,4 +1,5 @@
 import { Quiz } from "../models/index.model.mjs";
+import { quizSchema } from "../schemas/quiz.schema.mjs";
 
 export const getAllQuiz = async (req, res) => {
   try {
@@ -27,11 +28,25 @@ export const getAllQuiz = async (req, res) => {
 
 export const createQuiz = async (req, res) => {
   try {
-    const { dept_id, quiz_name, time_limit } = req.body;
+    const { dept_id } = req.body;
 
-    if (!dept_id || !quiz_name || !time_limit) {
-      return res.status(400).json({ message: "Fields are required" });
+    const result = quizSchema.safeParse(req.body);
+
+    if (!result.success) {
+      const formatted = result.error.issues.map((err) => ({
+        path: err.path.join("."),
+        message: err.message,
+        expected: err.expected,
+        received: err.received,
+      }));
+
+      return res.status(400).json({
+        message: "Zod Validation failed",
+        errors: formatted,
+      });
     }
+
+    const { quiz_name, time_limit } = result.data;
 
     const quiz = await Quiz.create({
       dept_id,
@@ -49,11 +64,24 @@ export const createQuiz = async (req, res) => {
 export const updateQuiz = async (req, res) => {
   try {
     const { quiz_id } = req.params;
-    const { quiz_name, time_limit } = req.body;
 
-    if (!quiz_name || !time_limit) {
-      return res.status(400).json({ message: "Fields are required" });
+    const result = quizSchema.safeParse(req.body);
+
+    if (!result.success) {
+      const formatted = result.error.issues.map((err) => ({
+        path: err.path.join("."),
+        message: err.message,
+        expected: err.expected,
+        received: err.received,
+      }));
+
+      return res.status(400).json({
+        message: "Zod Validation failed",
+        errors: formatted,
+      });
     }
+
+    const { quiz_name, time_limit } = result.data;
 
     const quiz = await Quiz.findByPk(quiz_id);
 

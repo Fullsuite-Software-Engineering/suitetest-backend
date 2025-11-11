@@ -1,4 +1,5 @@
 import { AnswerOption } from "../models/index.model.mjs";
+import { answerOptionSchema } from "../schemas/answer_option.schema.mjs";
 
 // FOR TAKING TESTS - WITHOUT CORRECT ANSWERS (SECURE)
 export const getAnswersForTest = async (req, res) => {
@@ -47,7 +48,24 @@ export const getAllAnswer = async (req, res) => {
 export const createAnswer = async (req, res) => {
   try {
     const { question_id } = req.params;
-    const { option_text, is_correct } = req.body;
+
+    const result = answerOptionSchema.safeParse(req.body);
+
+    if (!result.success) {
+      const formatted = result.error.issues.map((err) => ({
+        path: err.path.join("."),
+        message: err.message,
+        expected: err.expected,
+        received: err.received,
+      }));
+
+      return res.status(400).json({
+        message: "Zod Validation failed",
+        errors: formatted,
+      });
+    }
+
+    const { option_text, is_correct } = result.data;
 
     const answer = await AnswerOption.create({
       question_id,
@@ -68,7 +86,24 @@ export const createAnswer = async (req, res) => {
 export const updateAnswer = async (req, res) => {
   try {
     const { answer_id } = req.params;
-    const { option_text, is_correct } = req.body;
+
+    const result = answerOptionSchema.safeParse(req.body);
+
+    if (!result.success) {
+      const formatted = result.error.issues.map((err) => ({
+        path: err.path.join("."),
+        message: err.message,
+        expected: err.expected,
+        received: err.received,
+      }));
+
+      return res.status(400).json({
+        message: "Zod Validation failed",
+        errors: formatted,
+      });
+    }
+
+    const { option_text, is_correct } = result.data;
 
     const answer = await AnswerOption.findByPk(answer_id);
     if (!answer) {

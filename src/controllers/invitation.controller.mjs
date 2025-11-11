@@ -5,15 +5,28 @@ import {
   Department,
   Examiner,
 } from "../models/index.model.mjs";
+import { examinerSchema, invitationSchema } from "../schemas/index.schema.mjs";
 import env from "../configs/env.mjs";
 
 export const generateLinkInvitation = async (req, res) => {
   try {
-    const { email, quiz_id, dept_id, expiration } = req.body;
+    const result = invitationSchema.safeParse(req.body);
 
-    if (!email || !quiz_id || !dept_id) {
-      return res.status(400).json({ message: "Missing required fields." });
+    if (!result.success) {
+      const formatted = result.error.issues.map((err) => ({
+        path: err.path.join("."),
+        message: err.message,
+        expected: err.expected,
+        received: err.received,
+      }));
+
+      return res.status(400).json({
+        message: "Zod Validation failed",
+        errors: formatted,
+      });
     }
+
+    const { email, quiz_id, dept_id, expiration } = result.data;
 
     const quiz = await Quiz.findByPk(quiz_id);
     const dept = await Department.findByPk(dept_id);
@@ -88,7 +101,24 @@ export const validateLinkInvitation = async (req, res) => {
 
 export const completeLinkInvitation = async (req, res) => {
   try {
-    const { token, first_name, last_name, email } = req.body;
+    const { token } = req.body;
+    const result = examinerSchema.safeParse(req.body);
+
+    if (!result.success) {
+      const formatted = result.error.issues.map((err) => ({
+        path: err.path.join("."),
+        message: err.message,
+        expected: err.expected,
+        received: err.received,
+      }));
+
+      return res.status(400).json({
+        message: "Zod Validation failed",
+        errors: formatted,
+      });
+    }
+
+    const { first_name, last_name, email } = result.data;
 
     const invitation = await Invitation.findOne({
       where: { token },

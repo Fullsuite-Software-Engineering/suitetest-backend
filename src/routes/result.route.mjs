@@ -4,8 +4,6 @@ import {
   createResult,
   deleteResult,
 } from "../controllers/result.controller.mjs";
-import { validateSchema } from "../middlewares/validateSchema.middleware.mjs";
-import { resultSchema } from "../schemas/result.schema.mjs";
 
 const router = express.Router();
 

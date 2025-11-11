@@ -1,10 +1,7 @@
 import { z } from "zod";
 
 export const examinerSchema = z.object({
-  examiner_id: z.number().optional(),
-  dept_id: z.number(),
-  first_name: z.string(),
-  last_name: z.string(),
+  first_name: z.string().min(1, "First name is required"),
+  last_name: z.string().min(1, "Last name is required"),
   email: z.email(),
-  created_at: z.date().default(() => new Date()),
 });
