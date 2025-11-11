@@ -10,7 +10,7 @@ import { resultSchema } from "../schemas/result.schema.mjs";
 const router = express.Router();
 
 router.get("/get", getAllResult);
-router.post("/create", validateSchema(resultSchema), createResult);
+router.post("/create", createResult);
 router.delete("/delete", deleteResult);
 
 export default router;
