@@ -23,7 +23,7 @@ export const generateLinkInvitation = async (req, res) => {
     }
 
     const token = uuidV4();
-    const expires_at = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hour expiration
+    const expires_at = new Date(Date.now() + 24 * 60 * 60 * 1000);
 
     const invitation = await Invitation.create({
       token,

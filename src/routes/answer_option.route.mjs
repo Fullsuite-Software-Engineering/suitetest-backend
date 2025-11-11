@@ -1,7 +1,7 @@
 import express from "express";
 import {
   getAllAnswer,
-  getAnswersForTest, // NEW - for secure test taking
+  getAnswersForTest,
   createAnswer,
   updateAnswer,
   deleteAnswer,
@@ -20,21 +20,18 @@ router.get("/get/:question_id", getAllAnswer);
 // Alternative route format (keep for backward compatibility)
 router.get("/:question_id/get", getAllAnswer);
 
-// Create answer
 router.post(
   "/:question_id/create",
   validateSchema(answerOptionSchema),
   createAnswer
 );
 
-// Update answer
 router.put(
   "/:answer_id/update",
   validateSchema(answerOptionSchema),
   updateAnswer
 );
 
-// Delete answer
 router.delete("/:answer_id/delete", deleteAnswer);
 
 export default router;

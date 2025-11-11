@@ -70,6 +70,8 @@ export const createResult = async (req, res) => {
       );
       if (!question) continue;
 
+      const type = question.question_type;
+
       if (type === "descriptive") {
         continue;
       }
@@ -95,11 +97,17 @@ export const createResult = async (req, res) => {
       totalScoredQuestions++;
     }
 
+    let finalStatus = status;
+    if (!finalStatus) {
+      finalStatus =
+        answers.length < questions.length ? "ABANDONED" : "COMPLETED";
+    }
+
     const result = await Result.create({
       examiner_id,
       quiz_id,
       score,
-      status,
+      status: finalStatus,
     });
 
     res.status(201).json({
