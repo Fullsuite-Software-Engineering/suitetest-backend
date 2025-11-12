@@ -21,7 +21,7 @@ export default (sequelize) =>
       },
       question_text: { type: DataTypes.TEXT, allowNull: false },
       question_type: {
-        type: DataTypes.ENUM("MC", "CB", "TF", "DESC"),
+        type: DataTypes.ENUM("MC", "CB", "TF"),
         allowNull: false,
       },
       points: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 1 },

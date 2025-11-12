@@ -53,11 +53,6 @@ export default (sequelize) =>
         allowNull: true,
         comment: "Expiration date of the invitation link",
       },
-      used: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false,
-        comment: "Whether the link has been used or not",
-      },
     },
     {
       tableName: "invitations",
