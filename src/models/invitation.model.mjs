@@ -32,13 +32,6 @@ export default (sequelize) =>
         },
         onDelete: "CASCADE",
       },
-      email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          isEmail: true,
-        },
-      },
       examiner_id: {
         type: DataTypes.INTEGER,
         allowNull: true,
