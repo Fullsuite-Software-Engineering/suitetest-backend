@@ -224,14 +224,13 @@ export const createResult = async (req, res) => {
       let userAnswers = Array.isArray(answer.selected_answer)
         ? answer.selected_answer
         : [answer.selected_answer];
-
       userAnswers = userAnswers.filter(Boolean);
 
       let questionScore = 0;
       let isCorrect = false;
 
       if (question.question_type === "CB") {
-        // Checkbox: calculate partial score
+        // Checkbox: each correct answer = full question points
         const userAnswerIds = userAnswers
           .map((userAns) => {
             if (typeof userAns === "string") {
@@ -246,23 +245,20 @@ export const createResult = async (req, res) => {
           })
           .filter(Boolean);
 
+        // Give full points for each correct selection
         const correctSelectedCount = userAnswerIds.filter((id) =>
           correctAnswerIds.includes(id)
         ).length;
-        const totalCorrectCount = correctAnswerIds.length;
 
-        // Partial scoring: fraction of correct answers selected
-        questionScore =
-          (correctSelectedCount / totalCorrectCount) * (question.points || 1);
+        questionScore = correctSelectedCount * (question.points || 1);
 
-        // Only mark fully correct if all correct answers selected AND no extra
+        // Fully correct only if all correct answers selected and no extras
         isCorrect =
-          userAnswerIds.length === totalCorrectCount &&
-          correctSelectedCount === totalCorrectCount;
+          correctAnswerIds.every((id) => userAnswerIds.includes(id)) &&
+          userAnswerIds.every((id) => correctAnswerIds.includes(id));
       } else {
         // MC / TF: full points if correct
         let userAnswer = userAnswers[0];
-
         if (typeof userAnswer === "string") {
           const match = question.AnswerOptions.find(
             (opt) =>
@@ -303,7 +299,15 @@ export const createResult = async (req, res) => {
       data: {
         ...result.toJSON(),
         detailed_results: detailedResults,
-        max_score: questions.reduce((sum, q) => sum + (q.points || 1), 0),
+        max_score: questions.reduce(
+          (sum, q) =>
+            sum +
+            (q.question_type === "CB"
+              ? q.AnswerOptions.filter((opt) => opt.is_correct).length *
+                (q.points || 1)
+              : q.points || 1),
+          0
+        ),
       },
     });
   } catch (error) {
