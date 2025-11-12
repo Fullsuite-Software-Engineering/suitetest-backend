@@ -73,11 +73,6 @@ export const validateLinkInvitation = async (req, res) => {
     if (!invitation)
       return res.status(404).json({ message: "Invalid invitation link." });
 
-    // if (invitation.used)
-    //   return res
-    //     .status(400)
-    //     .json({ message: "This invitation was already used." });
-
     if (invitation.expires_at && new Date(invitation.expires_at) < new Date())
       return res
         .status(400)
@@ -134,10 +129,6 @@ export const completeLinkInvitation = async (req, res) => {
       return res.status(404).json({ message: "Invalid invitation token." });
     }
 
-    // if (invitation.used) {
-    //   return res.status(400).json({ message: "Invitation already used." });
-    // }
-
     const examiner = await Examiner.create({
       first_name,
       last_name,
@@ -146,7 +137,6 @@ export const completeLinkInvitation = async (req, res) => {
     });
 
     invitation.examiner_id = examiner.examiner_id;
-    // invitation.used = true;
     await invitation.save();
 
     res.status(200).json({
