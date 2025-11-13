@@ -4,6 +4,7 @@ import {
   getAnswersForTest,
   createAnswer,
   updateAnswer,
+  updateMultipleAnswers,
   deleteAnswer,
 } from "../controllers/answer_option.controller.mjs";
 
@@ -21,6 +22,7 @@ router.get("/:question_id/get", getAllAnswer);
 router.post("/:question_id/create", createAnswer);
 
 router.put("/:answer_id/update", updateAnswer);
+router.put("/:answer_id/updateAll", updateMultipleAnswers);
 
 router.delete("/:answer_id/delete", deleteAnswer);
 

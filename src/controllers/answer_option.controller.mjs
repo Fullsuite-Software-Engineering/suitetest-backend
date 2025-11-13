@@ -124,6 +124,64 @@ export const updateAnswer = async (req, res) => {
   }
 };
 
+export const updateMultipleAnswers = async (req, res) => {
+  try {
+    const { quiz_id, question_id, answers } = req.body;
+
+    if (!Array.isArray(answers) || answers.length === 0) {
+      return res.status(400).json({ message: "No answers provided" });
+    }
+
+    // Validate all using zod schema
+    const results = answers.map((ans) => answerOptionSchema.safeParse(ans));
+    const errors = results
+      .filter((r) => !r.success)
+      .map((r, i) => ({
+        index: i,
+        errors: r.error?.issues?.map((e) => ({
+          path: e.path.join("."),
+          message: e.message,
+        })),
+      }));
+
+    if (errors.length > 0) {
+      return res.status(400).json({
+        message: "Validation failed for one or more answers",
+        errors,
+      });
+    }
+
+    const updatedAnswers = [];
+
+    for (const answer of answers) {
+      const existing = await AnswerOption.findByPk(answer.answer_id);
+
+      if (existing) {
+        existing.option_text = answer.option_text;
+        existing.is_correct = answer.is_correct;
+        await existing.save();
+        updatedAnswers.push(existing);
+      } else {
+        // Optionally allow new answers to be created
+        const newAnswer = await AnswerOption.create({
+          question_id,
+          option_text: answer.option_text,
+          is_correct: answer.is_correct,
+        });
+        updatedAnswers.push(newAnswer);
+      }
+    }
+
+    res.status(200).json({
+      message: "Answers updated successfully",
+      data: updatedAnswers,
+    });
+  } catch (error) {
+    console.error("Error updating multiple answers:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 export const deleteAnswer = async (req, res) => {
   try {
     const { answer_id } = req.params;

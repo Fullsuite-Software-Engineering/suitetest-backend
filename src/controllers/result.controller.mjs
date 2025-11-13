@@ -186,7 +186,6 @@ export const createResult = async (req, res) => {
   try {
     const { examiner_id, quiz_id, answers, status } = req.body;
 
-    // Fetch quiz questions with answer options
     const questions = await QuestionBank.findAll({
       where: { quiz_id },
       include: [
