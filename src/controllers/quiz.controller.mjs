@@ -14,7 +14,7 @@ export const getAllQuiz = async (req, res) => {
     });
 
     if (!quizzes || quizzes.length === 0) {
-      return res.status(400).json({ message: "Failed to fetch quizzes" });
+      return res.status(200).json({ message: "No Quizzes" });
     }
 
     // Add question count to each quiz
