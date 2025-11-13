@@ -23,7 +23,7 @@ export const getAllQuestion = async (req, res) => {
 
 export const createQuestion = async (req, res) => {
   try {
-    const { quiz_id } = req.body;
+    const { quiz_id } = req.params;
 
     const result = questionBankSchema.safeParse(req.body);
 
@@ -87,11 +87,15 @@ export const updateQuestion = async (req, res) => {
       res.status(400).json({ message: "Question not found" });
     }
 
-    question.question_text = question_text;
-    question.question_type = question_type;
-    question.points = points;
-    question.explanation = explanation;
-    await question.save();
+    await question.update(
+      {
+        question_text,
+        question_type,
+        points,
+        explanation,
+      },
+      { where: { question_id } }
+    );
 
     res
       .status(201)
