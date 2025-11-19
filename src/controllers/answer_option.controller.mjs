@@ -132,7 +132,6 @@ export const updateMultipleAnswers = async (req, res) => {
       return res.status(400).json({ message: "No answers provided" });
     }
 
-    // Validate all using zod schema
     const results = answers.map((ans) => answerOptionSchema.safeParse(ans));
     const errors = results
       .filter((r) => !r.success)

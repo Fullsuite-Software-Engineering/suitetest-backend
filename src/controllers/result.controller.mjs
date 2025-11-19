@@ -23,7 +23,19 @@ export const getAllResult = async (req, res) => {
         },
         {
           model: Quiz,
-          attributes: ["quiz_name"],
+          attributes: ["quiz_name", "quiz_id"],
+          include: [
+            {
+              model: QuestionBank,
+              attributes: ["question_id", "quiz_id", "points", "question_type"],
+              include: [
+                {
+                  model: AnswerOption,
+                  attributes: ["answer_id", "question_id", "is_correct"],
+                },
+              ],
+            },
+          ],
         },
       ],
     });
@@ -34,9 +46,41 @@ export const getAllResult = async (req, res) => {
       });
     }
 
-    res
-      .status(200)
-      .json({ message: "Results retrieved successfully", data: results });
+    // Process each result and calculate total points
+    const resultsWithTotalPoints = results.map((result) => {
+      const resultData = result.toJSON();
+      let totalPoints = 0;
+
+      // Check if Quiz and QuestionBank exist
+      if (resultData.Quiz && resultData.Quiz.QuestionBanks) {
+        resultData.Quiz.QuestionBanks.forEach((question) => {
+          if (
+            question.question_type === "CB" ||
+            question.question_type === "checkbox"
+          ) {
+            // For checkbox questions, count points for each correct answer
+            const correctAnswersCount =
+              question.AnswerOptions?.filter(
+                (answer) => answer.is_correct === true
+              ).length || 0;
+
+            // Add points multiplied by number of correct answers
+            totalPoints += question.points * correctAnswersCount;
+          } else {
+            // For other question types (MC, TF, etc.), just add the question points once
+            totalPoints += question.points || 0;
+          }
+        });
+      }
+
+      resultData.total_points = totalPoints;
+      return resultData;
+    });
+
+    res.status(200).json({
+      message: "Results retrieved successfully",
+      data: resultsWithTotalPoints,
+    });
   } catch (error) {
     console.error("Error retrieving results:", error);
     res.status(500).json({
@@ -318,47 +362,47 @@ export const createResult = async (req, res) => {
   }
 };
 
-export const getResultById = async (req, res) => {
-  try {
-    const { result_id } = req.params;
+// export const getResultById = async (req, res) => {
+//   try {
+//     const { result_id } = req.params;
 
-    const result = await Result.findByPk(result_id, {
-      include: [
-        {
-          model: Examiner,
-          attributes: ["first_name", "last_name", "email"],
-          include: [
-            {
-              model: Department,
-              attributes: ["dept_name"],
-            },
-          ],
-        },
-        {
-          model: Quiz,
-          attributes: ["quiz_name", "time_limit"],
-        },
-      ],
-    });
+//     const result = await Result.findByPk(result_id, {
+//       include: [
+//         {
+//           model: Examiner,
+//           attributes: ["first_name", "last_name", "email"],
+//           include: [
+//             {
+//               model: Department,
+//               attributes: ["dept_name"],
+//             },
+//           ],
+//         },
+//         {
+//           model: Quiz,
+//           attributes: ["quiz_name", "time_limit"],
+//         },
+//       ],
+//     });
 
-    if (!result) {
-      return res.status(404).json({
-        message: "Result not found",
-      });
-    }
+//     if (!result) {
+//       return res.status(404).json({
+//         message: "Result not found",
+//       });
+//     }
 
-    res.status(200).json({
-      message: "Result retrieved successfully",
-      data: result,
-    });
-  } catch (error) {
-    console.error("Error retrieving result:", error);
-    res.status(500).json({
-      message: "Internal server error",
-      error: error.message,
-    });
-  }
-};
+//     res.status(200).json({
+//       message: "Result retrieved successfully",
+//       data: result,
+//     });
+//   } catch (error) {
+//     console.error("Error retrieving result:", error);
+//     res.status(500).json({
+//       message: "Internal server error",
+//       error: error.message,
+//     });
+//   }
+// };
 
 export const getResultsByQuiz = async (req, res) => {
   try {
