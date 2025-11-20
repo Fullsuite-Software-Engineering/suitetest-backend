@@ -20,7 +20,8 @@ export default (sequelize) =>
         onDelete: "CASCADE",
       },
       quiz_name: { type: DataTypes.STRING(255), allowNull: false },
-      time_limit: { type: DataTypes.INTEGER },
+      pdf_link: { type: DataTypes.STRING(255), allowNull: true },
+      time_limit: { type: DataTypes.INTEGER, allowNull: true },
     },
     {
       tableName: "quizzes",
