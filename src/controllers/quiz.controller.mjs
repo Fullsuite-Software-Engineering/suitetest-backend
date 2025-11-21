@@ -41,7 +41,7 @@ export const getAllQuiz = async (req, res) => {
 
 export const createQuiz = async (req, res) => {
   try {
-    const { dept_id } = req.body;
+    const { dept_id, pdf_link } = req.body; // Added pdf_link here
 
     const result = quizSchema.safeParse(req.body);
 
@@ -65,6 +65,7 @@ export const createQuiz = async (req, res) => {
       dept_id,
       quiz_name,
       time_limit,
+      pdf_link: pdf_link || null, // Added pdf_link field
     });
 
     res.status(200).json({ message: "Quiz created successfully", data: quiz });
@@ -77,6 +78,7 @@ export const createQuiz = async (req, res) => {
 export const updateQuiz = async (req, res) => {
   try {
     const { quiz_id } = req.params;
+    const { pdf_link } = req.body; // Added pdf_link here
 
     const result = quizSchema.safeParse(req.body);
 
@@ -99,11 +101,12 @@ export const updateQuiz = async (req, res) => {
     const quiz = await Quiz.findByPk(quiz_id);
 
     if (!quiz) {
-      res.status(400).json({ message: "Cannot find quiz" });
+      return res.status(400).json({ message: "Cannot find quiz" });
     }
 
     quiz.quiz_name = quiz_name;
     quiz.time_limit = time_limit;
+    quiz.pdf_link = pdf_link !== undefined ? pdf_link : quiz.pdf_link; // Update pdf_link if provided
     await quiz.save();
 
     res.status(201).json({ message: "Quiz updated successfully", data: quiz });
@@ -125,7 +128,7 @@ export const deleteQuiz = async (req, res) => {
       .status(201)
       .json({ message: "Quiz deleted successfully", data: deleteQuiz });
   } catch (error) {
-    console.error("Erro deleting quiz:", error);
+    console.error("Error deleting quiz:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
