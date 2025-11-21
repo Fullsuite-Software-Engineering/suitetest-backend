@@ -64,8 +64,14 @@ export const validateLinkInvitation = async (req, res) => {
     const invitation = await Invitation.findOne({
       where: { token },
       include: [
-        { model: Quiz, attributes: ["quiz_id", "quiz_name"] },
-        { model: Department, attributes: ["dept_id", "dept_name"] },
+        { 
+          model: Quiz, 
+          attributes: ["quiz_id", "quiz_name", "pdf_link"] // Added pdf_link here
+        },
+        { 
+          model: Department, 
+          attributes: ["dept_id", "dept_name"] 
+        },
       ],
     });
 
@@ -84,6 +90,7 @@ export const validateLinkInvitation = async (req, res) => {
         quiz_id: invitation.quiz_id,
         quiz_name: invitation.Quiz?.quiz_name,
         dept_name: invitation.Department?.dept_name,
+        pdf_link: invitation.Quiz?.pdf_link, // Added pdf_link here
       },
     });
   } catch (error) {
@@ -118,7 +125,7 @@ export const completeLinkInvitation = async (req, res) => {
       include: [
         {
           model: Quiz,
-          attributes: ["quiz_id", "quiz_name", "time_limit"],
+          attributes: ["quiz_id", "quiz_name", "time_limit", "pdf_link"], // ADDED pdf_link HERE
         },
       ],
     });
@@ -141,7 +148,12 @@ export const completeLinkInvitation = async (req, res) => {
       message: "Examiner registered and invitation completed.",
       data: {
         examiner,
-        quiz: invitation.Quiz,
+        quiz: {
+          quiz_id: invitation.Quiz.quiz_id,
+          quiz_name: invitation.Quiz.quiz_name,
+          time_limit: invitation.Quiz.time_limit,
+          pdf_link: invitation.Quiz.pdf_link, // Ensure pdf_link is included
+        },
       },
     });
   } catch (error) {
