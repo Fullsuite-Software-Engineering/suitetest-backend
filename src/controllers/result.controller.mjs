@@ -299,6 +299,12 @@ export const createResult = async (req, res) => {
         isCorrect =
           correctAnswerIds.every((id) => userAnswerIds.includes(id)) &&
           userAnswerIds.every((id) => correctAnswerIds.includes(id));
+      } else if (question.question_type === "DESC") {
+        // Descriptive: Will compare the user answer into the key answers that is stored in answerOptions where all of them is_correct is true
+        let userAnswer = userAnswers[0];
+        if (typeof userAnswer === "string") {
+          userAnswer = userAnswer.trim().toLowerCase();
+        }
       } else {
         // MC / TF: full points if correct
         let userAnswer = userAnswers[0];

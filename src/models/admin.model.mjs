@@ -9,7 +9,7 @@ export default (sequelize) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      email: { type: DataTypes.EMAIL, allowNull: false, uniques: true },
+      email: { type: DataTypes.STRING(255), allowNull: false, uniques: true },
       password: { type: DataTypes.STRING(255), allowNull: false },
     },
     {
