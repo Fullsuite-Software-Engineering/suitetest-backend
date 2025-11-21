@@ -10,7 +10,7 @@ import invitationRoutes from "../routes/invitation.route.mjs";
 import { verifyToken } from "../middlewares/auth.middleware.mjs";
 
 const router = express.Router();
-router.use(verifyToken);
+// router.use(verifyToken);
 
 router.use("/examiner", examinerRoutes);
 router.use("/department", departmentRoutes);

@@ -45,7 +45,7 @@ export const generateLinkInvitation = async (req, res) => {
       expires_at,
     });
 
-    const link = `${env.FRONT_END_BASE_URL}/take-quiz/${token}`;
+    const link = `${process.env.FRONT_END_BASE_URL_DEV}/take-quiz/${token}`;
 
     return res.status(201).json({
       message: "Invitation generated successfully.",
