@@ -10,15 +10,17 @@ import invitationRoutes from "../routes/invitation.route.mjs";
 import { verifyToken } from "../middlewares/auth.middleware.mjs";
 
 const router = express.Router();
+
+// Apply token verification middleware to all routes below
 // router.use(verifyToken);
 
-router.use("/examiner", examinerRoutes);
+router.use("/invitation", invitationRoutes);
 router.use("/department", departmentRoutes);
-router.use("/quiz", quizRoutes);
 router.use("/question", questionRoutes);
 router.use("/answer", answerRoutes);
+router.use("/examiner", examinerRoutes);
+router.use("/quiz", quizRoutes);
 router.use("/result", resultRoutes);
 router.use("/bridge", bridgeRoutes);
-router.use("/invitation", invitationRoutes);
 
 export default router;

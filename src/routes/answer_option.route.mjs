@@ -7,6 +7,7 @@ import {
   updateMultipleAnswers,
   deleteAnswer,
 } from "../controllers/answer_option.controller.mjs";
+import { verifyToken } from "../middlewares/auth.middleware.mjs";
 
 const router = express.Router();
 
@@ -14,16 +15,16 @@ const router = express.Router();
 router.get("/test/:question_id", getAnswersForTest);
 
 // FOR ADMIN/RESULTS (includes correct answers) - USE THIS FOR RESULTS
-router.get("/get/:question_id", getAllAnswer);
+router.get("/get/:question_id", verifyToken, getAllAnswer);
 
 // Alternative route format (keep for backward compatibility)
-router.get("/:question_id/get", getAllAnswer);
+router.get("/:question_id/get", verifyToken, getAllAnswer);
 
-router.post("/:question_id/create", createAnswer);
+router.post("/:question_id/create", verifyToken, createAnswer);
 
-router.put("/:answer_id/update", updateAnswer);
-router.put("/:answer_id/updateAll", updateMultipleAnswers);
+router.put("/:answer_id/update", verifyToken, updateAnswer);
+router.put("/:answer_id/updateAll", verifyToken, updateMultipleAnswers);
 
-router.delete("/:answer_id/delete", deleteAnswer);
+router.delete("/:answer_id/delete", verifyToken, deleteAnswer);
 
 export default router;
