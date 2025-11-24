@@ -7,7 +7,6 @@ import AnswerOptionModel from "./answer_option.model.mjs";
 import ResultModel from "./result.model.mjs";
 import BridgeModel from "./bridge.model.mjs";
 import InvitationModel from "./invitation.model.mjs";
-import AdminModel from "./admin.model.mjs";
 
 // Initialize models
 const Examiner = ExaminerModel(sequelize);
@@ -18,7 +17,6 @@ const AnswerOption = AnswerOptionModel(sequelize);
 const Result = ResultModel(sequelize);
 const Bridge = BridgeModel(sequelize);
 const Invitation = InvitationModel(sequelize);
-const Admin = AdminModel(sequelize);
 
 // Relationships
 
@@ -84,5 +82,4 @@ export {
   Result,
   Bridge,
   Invitation,
-  Admin,
 };

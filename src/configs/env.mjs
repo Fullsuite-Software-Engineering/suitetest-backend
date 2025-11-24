@@ -13,6 +13,7 @@ const envSchema = z.object({
 
   //JWT TOKEN
   JWT_SECRET: z.string(),
+  SHARED_API_KEY: z.string(),
 
   // HRIS API
   HRIS_BACKEND_URL: z.string(),
