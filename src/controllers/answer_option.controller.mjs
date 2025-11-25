@@ -53,9 +53,7 @@ export const getAllAnswer = async (req, res) => {
     });
 
     if (answers.length === 0) {
-      return res
-        .status(404)
-        .json({ message: "No answers found for this question" });
+      return res.status(200).json({ data: [{}] });
     }
 
     res.status(200).json({

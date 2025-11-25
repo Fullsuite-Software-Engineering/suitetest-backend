@@ -9,6 +9,10 @@ export const getAllQuestion = async (req, res) => {
       where: { quiz_id },
     });
 
+    if (!questions) {
+      return res.status(200).json({ data: [{}] });
+    }
+
     res
       .status(200)
       .json({ message: "Questions Retrieved Successfully", data: questions });
