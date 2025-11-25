@@ -1,19 +1,30 @@
-import { AnswerOption } from "../models/index.model.mjs";
+import { AnswerOption, QuestionBank } from "../models/index.model.mjs";
 import { answerOptionSchema } from "../schemas/answer_option.schema.mjs";
 
 // FOR TAKING TESTS - WITHOUT CORRECT ANSWERS (SECURE)
 export const getAnswersForTest = async (req, res) => {
   try {
-    const { question_id } = req.params;
+    const { quiz_id } = req.params;
 
     const answers = await AnswerOption.findAll({
-      where: { question_id },
+      include: [
+        {
+          model: QuestionBank,
+          where: { quiz_id },
+          attributes: [],
+        },
+      ],
       attributes: {
-        include: ["answer_id", "option_text"],
         exclude: ["is_correct"],
       },
       order: [["answer_id", "ASC"]],
     });
+
+    if (answers.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No answers found for this quiz" });
+    }
 
     res.status(200).json({
       message: "Answer options fetched successfully",
@@ -28,10 +39,16 @@ export const getAnswersForTest = async (req, res) => {
 // FOR ADMIN OR RESULTS - WITH CORRECT ANSWERS
 export const getAllAnswer = async (req, res) => {
   try {
-    const { question_id } = req.params;
+    const { quiz_id } = req.params;
 
     const answers = await AnswerOption.findAll({
-      where: { question_id },
+      include: [
+        {
+          model: QuestionBank,
+          where: { quiz_id },
+          attributes: [],
+        },
+      ],
       order: [["answer_id", "ASC"]],
     });
 
