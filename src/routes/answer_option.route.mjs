@@ -15,7 +15,7 @@ const router = express.Router();
 router.get("/test/:question_id", getAnswersForTest);
 
 // FOR ADMIN/RESULTS (includes correct answers) - USE THIS FOR RESULTS
-router.get("/get/:question_id", verifyToken, getAllAnswer);
+router.get("/get/:question_id", getAllAnswer);
 
 // Alternative route format (keep for backward compatibility)
 router.get("/:question_id/get", verifyToken, getAllAnswer);
