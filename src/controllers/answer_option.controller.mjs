@@ -35,6 +35,12 @@ export const getAllAnswer = async (req, res) => {
       order: [["answer_id", "ASC"]],
     });
 
+    if (answers.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No answers found for this question" });
+    }
+
     res.status(200).json({
       message: "Answers fetched successfully",
       data: answers,
