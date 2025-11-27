@@ -241,29 +241,29 @@ export const createResult = async (req, res) => {
   }
 };
 
-// export const deleteResult = async (req, res) => {
-//   try {
-//     const { result_id } = req.params;
+export const deleteResult = async (req, res) => {
+  try {
+    const { result_id } = req.params;
 
-//     const result = await Result.findByPk(result_id);
+    const result = await Result.findByPk(result_id);
 
-//     if (!result) {
-//       return res.status(404).json({
-//         message: "Result not found",
-//       });
-//     }
+    if (!result) {
+      return res.status(404).json({
+        message: "Result not found",
+      });
+    }
 
-//     await result.destroy();
+    await result.destroy();
 
-//     res.status(200).json({
-//       message: "Result deleted successfully",
-//       data: { result_id },
-//     });
-//   } catch (error) {
-//     console.error("Error deleting result:", error);
-//     res.status(500).json({
-//       message: "Internal server error",
-//       error: error.message,
-//     });
-//   }
-// };
+    res.status(200).json({
+      message: "Result deleted successfully",
+      data: { result_id },
+    });
+  } catch (error) {
+    console.error("Error deleting result:", error);
+    res.status(500).json({
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+};
