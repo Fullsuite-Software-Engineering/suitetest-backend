@@ -7,13 +7,13 @@ const sequelize = new Sequelize(env.DB_NAME, env.DB_USER, env.DB_PASS, {
   port: env.DB_PORT,
   dialect: "mysql",
   dialectModule: mysql,
-  dialectOptions: {
-    connectTimeout: 20000,
-    ssl: {
-      require: true,
-      rejectUnauthorized: true,
-    },
-  },
+  // dialectOptions: {
+  //   connectTimeout: 20000,
+  //   ssl: {
+  //     require: true,
+  //     rejectUnauthorized: true,
+  //   },
+  // },
 });
 
 export default sequelize;

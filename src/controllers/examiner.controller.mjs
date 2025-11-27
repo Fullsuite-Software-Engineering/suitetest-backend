@@ -40,28 +40,28 @@ export const getAllExaminer = async (req, res) => {
 //   }
 // };
 
-// export const deleteExaminer = async (req, res) => {
-//   try {
-//     const { examiner_id } = req.params;
+export const deleteExaminer = async (req, res) => {
+  try {
+    const { examiner_id, email } = req.params;
 
-//     if (!examiner_id) {
-//       return res.status(400).json({ message: "Examiner Id is required" });
-//     }
+    if (!examiner_id && !email) {
+      return res.status(400).json({ message: "Examiner Id is required" });
+    }
 
-//     const deletedExaminer = await Examiner.destroy({
-//       where: { examiner_id },
-//     });
+    const deletedExaminer = await Examiner.destroy({
+      where: examiner_id ? { examiner_id } : { email }
+    });
 
-//     if (deletedExaminer === 0) {
-//       return res.status(404).json({ message: "Examiner not found" });
-//     }
+    if (deletedExaminer === 0) {
+      return res.status(404).json({ message: "Examiner not found" });
+    }
 
-//     res.status(201).json({
-//       message: "Examiner deleted successfully",
-//       data: deletedExaminer,
-//     });
-//   } catch (error) {
-//     console.error("Error deleting examiner:", error);
-//     res.status(500).json({ message: "Internal server error" });
-//   }
-// };
+    res.status(201).json({
+      message: "Examiner deleted successfully",
+      data: deletedExaminer,
+    });
+  } catch (error) {
+    console.error("Error deleting examiner:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
